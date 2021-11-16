@@ -8,6 +8,9 @@ Cute anime girl moaning when something is plugged in.
 
 I think the sentence above says all about the app...
 
+
+<img src="ext/preview_1.png" width=33%> <img src="ext/preview_2.png" width=33%> <img src="ext/preview_3.png" width=33%>
+
 When you enter the app, just click start and whenever an event happens one of the precisely chosen sounds gets played.
 If you want to turn off the sound playing for a specific event, just toggle off the button behind it.
 For playing other sounds than the standard "Yamete Kudasai", click on the entry for the event you want to change
