@@ -1,6 +1,6 @@
 # Yamete Kudasai
 
-Cute anime girl moaning when something is plugged in.
+Cute anime girls moaning when something is plugged in.
 
 > Android only
 
