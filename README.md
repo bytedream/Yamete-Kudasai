@@ -2,11 +2,16 @@
 
 Cute anime girl moaning when something is plugged in.
 
-## Getting Started
-
 > Android only
 
+## Getting Started
+
+**Download the latest release [here](https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.1.0/yamete_kudasai-v1.1.0.apk).**
+
 I think the sentence above says all about the app...
+
+It basically plays a sound whenever a event from the supported events below gets fired.
+The sounds are predefined within the app and can easily be changed.
 
 
 <img src="ext/preview_1.png" width=30%> <img src="ext/preview_2.png" width=30%> <img src="ext/preview_3.png" width=30%>
@@ -18,8 +23,8 @@ and a new window pops up where you can set the sound which should be played on t
 
 Supported events:
 - **Battery**
-  - Battery charging
-  - Battery discharging
+  - Battery charging (cable plugged in)
+  - Battery discharging (cable plugged out)
   - Battery full
 - **Headphone**
   - Headphone connected
@@ -28,4 +33,3 @@ Supported events:
 ## License
 
 This project is licensed under the Do What The F*ck You Want To Public License (WTFPL) - see the [LICENSE](LICENSE) file for more details.
-
