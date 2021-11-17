@@ -45,11 +45,11 @@ public class PortUpdatePlugin implements FlutterPlugin, StreamHandler {
     batteryReceiver = createBatteryReceiver(eventSink);
     headphoneReceiver = createHeadphoneReceiver(eventSink);
 
-    context.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-    context.registerReceiver(headphoneReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+    Intent batteryIntent = context.registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    Intent headphoneIntent = context.registerReceiver(headphoneReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 
-    // lastBatteryStatus = getBatteryStatus(intent);
-    // lastHeadphoneStatus = getHeadphoneStatus(intent);
+    if (batteryIntent != null) lastBatteryStatus = getBatteryStatus(batteryIntent);
+    if (headphoneIntent != null) lastHeadphoneStatus = getHeadphoneStatus(headphoneIntent);
   }
 
   @Override

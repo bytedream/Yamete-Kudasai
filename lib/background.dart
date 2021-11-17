@@ -38,25 +38,13 @@ void initBackground() {
   );
 
   Map<UpdateAction, String>? data;
-  int running = 0;
 
   StreamSubscription<UpdateAction?>? sub = _portUpdate.stream.listen((event) async {
     data ??= (jsonDecode(generateEventData(await SharedPreferences.getInstance())) as Map<String, dynamic>)
         .map((key, value) => MapEntry(UpdateAction.values.elementAt(int.parse(key)), value as String));
     if (data!.containsKey(event!)) {
       final player = await _player.play(data![event]!);
-      running++;
-      FlutterBackgroundService().setNotificationInfo(
-        title: 'Yamete Kudasai',
-        content: 'Dispatching ${actions.values.elementAt(event.index).toLowerCase()} event'
-      );
       await player.onPlayerCompletion.first;
-      if (--running == 0) {
-        FlutterBackgroundService().setNotificationInfo(
-          title: 'Yamete Kudasai',
-          content: 'Running'
-        );
-      }
     }
   });
 
