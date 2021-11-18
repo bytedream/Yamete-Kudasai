@@ -1,10 +1,25 @@
 # Yamete Kudasai
 
-Cute anime girls moaning when something is plugged in.
+<p align="center">
+  <a href="https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.1.0/yamete_kudasai-v1.1.0.apk">
+    <img src="https://img.shields.io/github/downloads/ByteDream/Yamete-Kudasai/total?style=flat-square" alt="Download Badge">
+  </a>
+  <a href="https://github.com/ByteDream/Yamete-Kudasai/releases/latest">
+    <img src="https://img.shields.io/github/v/release/ByteDream/Yamete-Kudasai?style=flat-square" alt="Latest release">
+  </a>
+  <a href="https://github.com/ByteDream/Yamete-Kudasai/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/ByteDream/Yamete-Kudasai?style=flat-square" alt="License">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/github/languages/top/ByteDream/Yamete-Kudasai?style=flat-square" alt="Top language">
+  </a>
+</p>
 
-> Android only
+<h5 align="center">Cute anime girls moaning when something is plugged in.</h5>
 
 ## Getting Started
+
+> Android only
 
 **Download the latest release [here](https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.1.0/yamete_kudasai-v1.1.0.apk).**
 
