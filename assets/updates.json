@@ -1,0 +1,24 @@
+{
+  "1.0.0": {
+    "summary": "Initial release",
+    "details": [
+      "Initial release"
+    ]
+  },
+  "1.1.0": {
+    "summary": "Update check & bug fixing",
+    "details": [
+      "Update check",
+      "Permanent notification changes",
+      "No sound is played anymore when starting the app"
+    ]
+  },
+  "1.2.0": {
+    "summary": "Sauce & update list",
+    "details": [
+      "Added sauce information",
+      "Added notification after updated",
+      "Renamed one audio"
+    ]
+  }
+}

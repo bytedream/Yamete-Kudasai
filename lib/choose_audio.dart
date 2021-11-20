@@ -1,16 +1,14 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-final audio = {
-  'Airi\'s first tutoring lesson': 'assets/audio/airis_first_tutoring_lesson.mp3',
-  'The helpful pharmacist': 'assets/audio/the_helpful_pharmacist.mp3',
-  'Yamete Kudasai': 'assets/audio/yamete_kudasai.mp3'
-};
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yamete_kudasai/utils.dart';
 
 class ChooseAudio extends StatefulWidget {
   String _before;
+  final Map<String, Sauce> _sauce;
 
-  ChooseAudio(this._before, {Key? key}) : super(key: key);
+  ChooseAudio(this._before, this._sauce, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChooseAudioState();
@@ -33,36 +31,44 @@ class _ChooseAudioState extends State<ChooseAudio> {
           title: const Text('Choose audio')
         ),
         body: ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            MapEntry<String, String> item = audio.entries.elementAt(index);
-            if (index == _playIndex) {
-              if (_playing == null) {
-                play(item.value);
-              } else {
-                _playing!.stop().then((value) => play(item.value));
+            itemBuilder: (BuildContext context, int index) {
+              MapEntry<String, Sauce> item = widget._sauce.entries.elementAt(index);
+              if (index == _playIndex) {
+                if (_playing == null) {
+                  play(item.key);
+                } else {
+                  _playing!.stop().then((value) => play(item.key));
+                }
               }
-            }
-            return ListTile(
-              leading: Radio(
-                activeColor: Theme.of(context).colorScheme.secondary,
-                value: item.value,
-                groupValue: widget._before,
-                onChanged: (String? value) {
+              return ListTile(
+                leading: Radio(
+                    activeColor: Theme.of(context).colorScheme.secondary,
+                    value: item.value.filepath,
+                    groupValue: widget._before,
+                    onChanged: (String? value) {
+                      setState(() {
+                        widget._before = value!;
+                      });
+                    }),
+                title: Text(item.value.alias),
+                trailing: IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => _buildSauceInfo(context, item.value)
+                      );
+                    },
+                    icon: Icon(Icons.info)
+                ),
+                onTap: () {
                   setState(() {
-                    widget._before = value!;
+                    _playIndex = index;
                   });
-                }),
-              title: Text(item.key),
-              trailing: Icon(_playIndex == index ? Icons.stop_outlined : Icons.play_arrow_outlined),
-              onTap: () {
-                setState(() {
-                  _playIndex = index;
-                });
-              },
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
-          itemCount: audio.length
+                },
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
+            itemCount: widget._sauce.length
         ),
       ),
     );
@@ -74,6 +80,40 @@ class _ChooseAudioState extends State<ChooseAudio> {
       _playing!.stop();
     }
     super.dispose();
+  }
+
+  Widget _buildSauceInfo(BuildContext context, Sauce sauce) {
+    return AlertDialog(
+      backgroundColor: Colors.black,
+      title: Text('${sauce.alias} sauce'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Name: ${sauce.name}'),
+          Text('Season: ${sauce.season ?? "?"}'),
+          Text('Episode: ${sauce.episode ?? "?"}'),
+          Text('Audio time: ${sauce.from ?? "?"} - ${sauce.to ?? "?"}'),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            final search = 'https://hentaihaven.com/?s=${sauce.name.replaceAll(" ", "+")}';
+            if (await canLaunch(search)) {
+              await launch(search);
+            }
+          },
+          child: const Text('Search online')
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Ok')
+        )
+      ],
+    );
   }
 
   void play(String path) async {

@@ -1,7 +1,7 @@
 # Yamete Kudasai
 
 <p align="center">
-  <a href="https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.1.0/yamete_kudasai-v1.1.0.apk">
+  <a href="https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.2.0/yamete_kudasai-v1.2.0.apk">
     <img src="https://img.shields.io/github/downloads/ByteDream/Yamete-Kudasai/total?style=flat-square" alt="Download Badge">
   </a>
   <a href="https://github.com/ByteDream/Yamete-Kudasai/releases/latest">
@@ -21,7 +21,7 @@
 
 > Android only
 
-**Download the latest release [here](https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.1.0/yamete_kudasai-v1.1.0.apk).**
+**Download the latest release [here](https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.2.0/yamete_kudasai-v1.2.0.apk).**
 
 I think the sentence above says all about the app...
 

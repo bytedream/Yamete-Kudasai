@@ -1,0 +1,26 @@
+{
+  "assets/audio/sanas_first_tutoring_lesson.mp3": {
+    "alias": "Sana's first tutoring lesson",
+    "name": "Oni ChiChi",
+    "season": "1",
+    "episode": "1",
+    "from": "0:03",
+    "to": "0:06"
+  },
+  "assets/audio/the_helpful_pharmacist.mp3": {
+    "alias": "The helpful pharmacist",
+    "name": "Rune's Pharmacy: Tiarajima no Okusuriya-san",
+    "season": null,
+    "episode": "2",
+    "from": "5:55",
+    "to": "5:59"
+  },
+  "assets/audio/yamete_kudasai.mp3": {
+    "alias": "Yamete Kudasai",
+    "name": "Yamete Kudasai",
+    "season": null,
+    "episode": null,
+    "from": null,
+    "to": null
+  }
+}

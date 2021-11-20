@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -13,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yamete_kudasai/background.dart';
+import 'package:yamete_kudasai/utils.dart';
 
 import 'choose_audio.dart';
 
@@ -44,7 +46,11 @@ class _YameteKudasaiState extends State<YameteKudasai> {
   @override
   Widget build(BuildContext context) {
     FlutterBackgroundService.initialize(initBackground, foreground: false);
-    checkUpdate(context);
+    checkUpdate(context).then((value) => {
+      if (!value) {
+        checkFirstLaunch(context)
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +93,15 @@ class _YameteKudasaiState extends State<YameteKudasai> {
               ),
             ),
             const Divider(color: Colors.white),
-            _buildAudioSettings()
+            FutureBuilder(
+              future: Sauce.sauceIndex(),
+              builder: (BuildContext context, AsyncSnapshot<Map<String, Sauce>> snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox.shrink();
+                }
+                return _buildAudioSettings(snapshot.data!);
+              }
+            )
           ],
         ),
       ),
@@ -131,7 +145,7 @@ class _YameteKudasaiState extends State<YameteKudasai> {
     );
   }
 
-  Widget _buildAudioSettings() {
+  Widget _buildAudioSettings(Map<String, Sauce> sauceIndex) {
     return FutureBuilder(
         future: SharedPreferences.getInstance(),
         builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
@@ -156,7 +170,7 @@ class _YameteKudasaiState extends State<YameteKudasai> {
 
                 return ListTile(
                   title: Text(item.value),
-                  subtitle: Text(audio.entries.firstWhere((element) => element.value == targetAudio).key),
+                  subtitle: Text(sauceIndex.entries.firstWhere((element) => element.key == targetAudio).value.alias),
                   trailing: Switch(
                       activeColor: Theme.of(context).colorScheme.secondary,
                       value: prefs.getBool(activatedKey) ?? true,
@@ -167,10 +181,11 @@ class _YameteKudasaiState extends State<YameteKudasai> {
                         setState(() {});
                       }),
                   onTap: () async {
+                    final sauce = await Sauce.sauceIndex();
                     final audioFile = await Navigator.push<String>(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => ChooseAudio(targetAudio)
+                            builder: (BuildContext context) => ChooseAudio(targetAudio, sauce)
                         )
                     );
                     if (audioFile != null && audioFile != targetAudio) {
@@ -187,7 +202,7 @@ class _YameteKudasaiState extends State<YameteKudasai> {
     );
   }
 
-  Future<void> checkUpdate(BuildContext context) async {
+  Future<bool> checkUpdate(BuildContext context) async {
     final response = await http.get(Uri.https('api.github.com', 'repos/ByteDream/Yamete-Kudasai/releases/latest'))
         .timeout(const Duration(seconds: 5), onTimeout: () => http.Response.bytes([], 504));
     if (response.statusCode == 200) {
@@ -200,8 +215,10 @@ class _YameteKudasaiState extends State<YameteKudasai> {
             context: context,
             builder: (BuildContext context) => _buildUpdateNotification(context, tag, apkUrl)
         );
+        return true;
       }
     }
+    return false;
   }
 
   Future<void> updateAPK(BuildContext context, String apkUrl) async {
@@ -235,6 +252,7 @@ class _YameteKudasaiState extends State<YameteKudasai> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: Colors.black,
               title: const Text('Failed to install update'),
               actions: [
                 TextButton(
@@ -248,6 +266,53 @@ class _YameteKudasaiState extends State<YameteKudasai> {
     }
     Navigator.pop(context);
     // await file.delete();
+  }
+
+  Future<void> checkFirstLaunch(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    final lastVersion = prefs.getString("version");
+    final currentVersion = packageInfo.version;
+
+    if ((lastVersion ?? "") != currentVersion) {
+      final updateIndex = await Update.updatesIndex();
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => _buildUpdateNotice(context, updateIndex[currentVersion]!)
+      );
+      await prefs.setString("version", currentVersion);
+    }
+  }
+
+  Widget _buildUpdateNotice(BuildContext context, Update update) {
+    return AlertDialog(
+      backgroundColor: Colors.black,
+      title: Text('Updated to ${update.version}'),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            final url = 'https://github.com/ByteDream/Yamete-Kudasai/releases/tag/v${update.version}';
+            if (await canLaunch(url)) {
+              await launch(url);
+            }
+          },
+          child: const Text('See more...')
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Ok'),
+        )
+      ],
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(update.summary),
+          Text('  » ${update.details.join("\n  » ")}')
+        ],
+      )
+    );
   }
 
   Future<bool> isRunning() async {
