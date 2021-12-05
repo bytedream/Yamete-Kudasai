@@ -49,4 +49,4 @@ Supported events:
 
 This project is licensed under the Do What The F*ck You Want To Public License (WTFPL) - see the [LICENSE](LICENSE) file for more details.
 
-All rights for the audio and image files in [/assets/audio](assets/audio), [assets/icon](assets/icon) and [android/app/src/main/res](android/app/src/main/res) are reserved to their artist and copyright holders.
+All rights for the audio and image files in [assets/audio](assets/audio), [assets/icon](assets/icon) and [android/app/src/main/res](android/app/src/main/res) are reserved to their artist and copyright holders.
