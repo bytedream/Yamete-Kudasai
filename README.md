@@ -21,7 +21,7 @@
 
 > Android only
 
-**Download the latest release [here](https://github.com/ByteDream/Yamete-Kudasai/releases/download/v1.2.0/yamete_kudasai-v1.2.0.apk).**
+**Download the latest release [here](https://smartrelease.bytedream.org/github/ByteDream/Yamete-Kudasai/yamete_kudasai-{tag}.apk).**
 
 I think the sentence above says all about the app...
 
